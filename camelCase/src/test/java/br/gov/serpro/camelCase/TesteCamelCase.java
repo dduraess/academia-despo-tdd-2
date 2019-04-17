@@ -25,5 +25,13 @@ public class TesteCamelCase {
 		gabaritoRetorno.add("nome");
 		assertArrayEquals(gabaritoRetorno.toArray(), CamelCase.converterCamelCase(palavra).toArray());
 	}
+	
+	@Test
+	public void verificaEntradaNomeComposto () {
+		palavra = "nomeComposto";
+		gabaritoRetorno.add("nome");
+		gabaritoRetorno.add("composto");
+		assertArrayEquals(gabaritoRetorno.toArray(), CamelCase.converterCamelCase(palavra).toArray());
+	}
 
 }
