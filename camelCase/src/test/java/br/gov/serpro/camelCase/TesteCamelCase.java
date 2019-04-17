@@ -15,7 +15,14 @@ public class TesteCamelCase {
 	@Test
 	public void verificaEntradaApenasUmNomeLowerCase () {
 		palavra = "nome";
-		gabaritoRetorno.add(palavra);
+		gabaritoRetorno.add("nome");
+		assertArrayEquals(gabaritoRetorno.toArray(), CamelCase.converterCamelCase(palavra).toArray());
+	}
+	
+	@Test
+	public void verificaEntradaApenasUmNomeCapitular () {
+		palavra = "Nome";
+		gabaritoRetorno.add("nome");
 		assertArrayEquals(gabaritoRetorno.toArray(), CamelCase.converterCamelCase(palavra).toArray());
 	}
 
