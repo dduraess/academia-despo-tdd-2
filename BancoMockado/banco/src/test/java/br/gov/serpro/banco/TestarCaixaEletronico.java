@@ -37,4 +37,9 @@ public class TestarCaixaEletronico {
 		assertEquals("O saldo é R$ 100.00", cx1.saldo());
 	}
 
+	@Test
+	public void obterContaCorrente() {
+		assertEquals(, cx1.recuperarConta());
+	}	
+
 }

@@ -4,7 +4,11 @@ import java.math.BigDecimal;
 
 public class CaixaEletronico {
 	
-	
+	public ContaCorrente contaCorrente;
+
+	public CaixaEletronico() {
+		
+	}
 
 	public String logar() {
 		return "Usuário Autenticado";

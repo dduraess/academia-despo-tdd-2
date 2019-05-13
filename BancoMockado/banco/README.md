@@ -23,3 +23,24 @@ Cumprimento dos requisitos de implementação pedidos no enunciado
 Organização do código implementado
 Uso correto de Mock Objects
 A separação do código relativo a testes do código de produção
+
+Luana 15:55
+Caixa Eletronico
+
+logar
+- pegarNumeroDaContaCartao() do Hardware ou falha
+- "Usuário Autenticado" ou "Não foi possível autenticar o usuário"
+
+sacar 
+- persistirConta() na ContaCorrente
+- entregarDinheiro() ou falha
+- "Retire seu dinheiro" ou "Saldo insuficiente"
+
+depositar 
+- lerEnvelope() do Hardware ou falha
+- persistirConta() na ContaCorrente
+- "Depósito recebido com sucesso"
+
+saldo
+- recuperarConta() na ContaCorrente
+- "O saldo é R$xx,xx"
