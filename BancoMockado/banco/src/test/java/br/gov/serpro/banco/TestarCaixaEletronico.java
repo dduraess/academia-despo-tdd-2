@@ -18,8 +18,13 @@ public class TestarCaixaEletronico {
 	}
 
 	@Test
-	public void verificaLoginComSucesso() {
+	public void loginComSucesso() {
 		assertEquals("Usuário Autenticado", cx1.logar());
+	}
+
+	@Test
+	public void loginFalhou() {
+		assertEquals("Não foi possível autenticar o usuário", cx1.logar());
 	}
 
 	@Test
@@ -36,10 +41,5 @@ public class TestarCaixaEletronico {
 	public void consultaSaldoComSucesso() {
 		assertEquals("O saldo é R$ 100.00", cx1.saldo());
 	}
-
-	@Test
-	public void obterContaCorrente() {
-		assertEquals(, cx1.recuperarConta());
-	}	
 
 }
