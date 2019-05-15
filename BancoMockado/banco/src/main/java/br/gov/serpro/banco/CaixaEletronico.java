@@ -4,18 +4,29 @@ import java.math.BigDecimal;
 
 public class CaixaEletronico {
 	
-	public ContaCorrente contaCorrente;
+	private ContaCorrente cc;
+	private Hardware hw;
+	private ServicoRemoto sr;
 
-	public CaixaEletronico() {
-		
+	public CaixaEletronico(Hardware hw, ServicoRemoto sr) {
+		this.hw=hw;
+		this.sr=sr;
+		this.cc = sr.recuperarConta(hw.pegarNumeroDaContaCartao());
 	}
 
 	public String logar() {
-
-		return "Usuário Autenticado";
+		if(this.cc != null) {
+			return "Usuário Autenticado";
+		}
+		return "Não foi possível autenticar o usuário";
 	}
 
 	public String sacar(BigDecimal valor) {
+		if(cc.getSaldo().compareTo(valor)==0){
+			sr.persistirConta(cc, valor);
+			hw.entregarDinheiro();
+		}
+
 		return "Retire seu dinheiro";
 	}
 
