@@ -11,10 +11,16 @@ public class TestarCaixaEletronico {
 	
 	
 		private CaixaEletronico cx1;
+		private CaixaEletronico cx2;
+		private HardwareMock mockHwContaExistente;
+		private HardwareMock mockHwContaInexistente;
 
 	@Before
 	public void setUpBefore() {
-		cx1 = new CaixaEletronico();
+		mockHwContaExistente = new HardwareMock("1234-5");
+		mockHwContaInexistente = new HardwareMock("9999-9");
+		cx1 = new CaixaEletronico(mockHwContaExistente, new ServicoRemotoMock());
+		cx2 = new CaixaEletronico(mockHwContaInexistente, new ServicoRemotoMock());
 	}
 
 	@Test
@@ -24,7 +30,7 @@ public class TestarCaixaEletronico {
 
 	@Test
 	public void loginFalhou() {
-		assertEquals("Não foi possível autenticar o usuário", cx1.logar());
+		assertEquals("Não foi possível autenticar o usuário", cx2.logar());
 	}
 
 	@Test
