@@ -11,8 +11,8 @@ public class CaixaEletronico {
 		this.sr = sr;
 		try {
 			this.cc = sr.recuperarConta(hw.pegarNumeroDaContaCartao());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			this.cc = null;
 		}
 	}
 	
