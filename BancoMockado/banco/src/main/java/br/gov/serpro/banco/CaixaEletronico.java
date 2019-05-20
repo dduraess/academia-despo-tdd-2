@@ -40,14 +40,17 @@ public class CaixaEletronico {
 	}
 
 	public String depositar(Double valor) {
-		hw.lerEnvelope();
 		try {
+			hw.lerEnvelope(valor);
 			sr.persistirConta(cc, Operacao.DEPOSITO, valor);
 			return "Depósito recebido com sucesso";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		} catch (RuntimeException e) {
+			return "Depósito não foi recebido";
 		}
+	}
+
+	public String saldo() {
+		return "O saldo é R$" + cc.getSaldo().toString();
 	}
 
 }

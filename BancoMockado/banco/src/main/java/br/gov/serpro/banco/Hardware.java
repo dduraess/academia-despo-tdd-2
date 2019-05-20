@@ -7,6 +7,6 @@ public interface Hardware {
 	
 	String pegarNumeroDaContaCartao();
 	void entregarDinheiro();
-	void lerEnvelope();
+	void lerEnvelope(Double valor);
 
 }

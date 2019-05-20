@@ -57,4 +57,19 @@ public class TestarCaixaEletronico {
 		assertTrue(hardwareMock.validadoNoHardware);
 	}
 
+	@Test
+	public void testeDepositarFalhou() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Depósito não foi recebido", caixaEletronico.depositar(0.00));
+		assertFalse(hardwareMock.validadoNoHardware);
+	}
+
+	@Test
+	public void testeSaldo() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("O saldo é R$500.0", caixaEletronico.saldo());
+	}
+
 }

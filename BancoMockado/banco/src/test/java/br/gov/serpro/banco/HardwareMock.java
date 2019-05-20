@@ -29,9 +29,13 @@ public class HardwareMock implements Hardware {
 	}
 
 	@Override
-	public void lerEnvelope() {
-		validadoNoHardware = true;
-		
+	public void lerEnvelope(Double valor) {
+		if (valor > 0) {
+			validadoNoHardware = true;
+		} else {
+			validadoNoHardware = false;
+			throw new RuntimeException();
+		}
 	}
 
 }
