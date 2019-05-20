@@ -1,11 +1,10 @@
 package br.gov.serpro.banco;
 
-import java.math.BigDecimal;
+import br.gov.serpro.banco.CaixaEletronico.Operacao;
 
 public interface ServicoRemoto {
 	
-	ContaCorrente recuperarConta(String nrConta);
-	
-	void persistirConta(ContaCorrente cc, BigDecimal valor);
+	ContaCorrente recuperarConta(String conta);
+	void persistirConta(ContaCorrente cc, Operacao op, Double valor);
 
 }

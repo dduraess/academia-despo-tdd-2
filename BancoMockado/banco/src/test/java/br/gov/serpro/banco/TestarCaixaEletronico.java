@@ -1,51 +1,60 @@
 package br.gov.serpro.banco;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class TestarCaixaEletronico {
 	
+	private HardwareMock hardwareMock;
+	private ServicoRemotoMock servicoRemotoMock;
+	private CaixaEletronico caixaEletronico;
 	
-		private CaixaEletronico cx1;
-		private CaixaEletronico cx2;
-		private HardwareMock mockHwContaExistente;
-		private HardwareMock mockHwContaInexistente;
-
 	@Before
-	public void setUpBefore() {
-		mockHwContaExistente = new HardwareMock("1234-5");
-		mockHwContaInexistente = new HardwareMock("9999-9");
-		cx1 = new CaixaEletronico(mockHwContaExistente, new ServicoRemotoMock());
-		cx2 = new CaixaEletronico(mockHwContaInexistente, new ServicoRemotoMock());
+	public void setUp() {
+		servicoRemotoMock = new ServicoRemotoMock();
 	}
 
 	@Test
-	public void loginComSucesso() {
-		assertEquals("Usuário Autenticado", cx1.logar());
+	public void testeLogarSucesso() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Usuário autenticado", caixaEletronico.logar());
+		assertTrue(hardwareMock.validadoNoHardware);
 	}
 
 	@Test
-	public void loginFalhou() {
-		assertEquals("Não foi possível autenticar o usuário", cx2.logar());
+	public void testeLoginFalhou() {
+		hardwareMock = new HardwareMock("Erro!");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Não foi possível autenticar o usuário", caixaEletronico.logar());
+		assertTrue(hardwareMock.validadoNoHardware);
 	}
 
 	@Test
-	public void efetuaSaqueComSucesso() {
-		assertEquals("Retire seu dinheiro", cx1.sacar(BigDecimal.valueOf(100.00)));
+	public void testeSacarComSucesso() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Retire seu dinheiro", caixaEletronico.sacar(100.00));
+		assertTrue(servicoRemotoMock.persistiuConta);
+		assertTrue(hardwareMock.validadoNoHardware);
 	}
 
 	@Test
-	public void efetuaDepositoComSucesso() {
-		assertEquals("Depósito recebido com sucesso", cx1.depositar(BigDecimal.valueOf(100.00)));
+	public void testeSacarSemSucesso() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Saldo insuficiente", caixaEletronico.sacar(600.00));
 	}
 
 	@Test
-	public void consultaSaldoComSucesso() {
-		assertEquals("O saldo é R$ 100.00", cx1.saldo());
+	public void testeDepositarComSucesso() {
+		hardwareMock = new HardwareMock("1234-5");
+		caixaEletronico = new CaixaEletronico(hardwareMock, servicoRemotoMock);
+		assertEquals("Depósito recebido com sucesso", caixaEletronico.depositar(100.00));
+		assertTrue(servicoRemotoMock.persistiuConta);
+		assertTrue(hardwareMock.validadoNoHardware);
 	}
 
 }

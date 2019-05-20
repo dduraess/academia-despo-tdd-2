@@ -1,32 +1,38 @@
 package br.gov.serpro.banco;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import br.gov.serpro.banco.CaixaEletronico.Operacao;
 
 /**
  * Created by 27352403809 on 15/05/19.
  */
 public class ServicoRemotoMock implements ServicoRemoto {
 
-    private List<ContaCorrente> contas = new ArrayList(Arrays.asList(new ContaCorrente("1234-5"), new ContaCorrente("1111-2"), new ContaCorrente("5678-9")));
+	public boolean persistiuConta;
+	private List<String> contas = new ArrayList<String>(Arrays.asList("1234-5","0567-8", "4321-0"));
 
-    @Override
-    public ContaCorrente recuperarConta(String nrConta) {
-        for (ContaCorrente conta: contas){
-            if (conta.getNrConta().equals(nrConta)) {
-                return new ContaCorrente(nrConta);
-            } else {
-                return null;
-            }
-        } return null;
+	@Override
+	public ContaCorrente recuperarConta(String conta) {
+		if (contas.contains(conta)) {
+			return new ContaCorrente();
+		} throw new RuntimeException("Não é possível criar conta inexistente");
+	}
 
-    }
+	@Override
+	public void persistirConta(ContaCorrente cc, Operacao op, Double valor) {
+		if (op == Operacao.SAQUE) {
+			if (cc.getSaldo() >= valor) {
+				cc.sacar(valor);
+				persistiuConta = true;
+			} else {
+				throw new RuntimeException();
+			}
+		}
+		cc.depositar(valor);
+		persistiuConta = true;
+	}
 
-    @Override
-    public void persistirConta(ContaCorrente cc, BigDecimal valor) {
-        cc.sacar(valor);
-
-    }
 }

@@ -1,41 +1,53 @@
 package br.gov.serpro.banco;
 
-import java.math.BigDecimal;
-
 public class CaixaEletronico {
 	
-	private ContaCorrente cc;
 	private Hardware hw;
 	private ServicoRemoto sr;
+	private ContaCorrente cc;
 
 	public CaixaEletronico(Hardware hw, ServicoRemoto sr) {
-		this.hw=hw;
-		this.sr=sr;
-		this.cc = sr.recuperarConta(hw.pegarNumeroDaContaCartao());
+		this.hw = hw;
+		this.sr = sr;
+		try {
+			this.cc = sr.recuperarConta(hw.pegarNumeroDaContaCartao());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	enum Operacao {
+		SAQUE, DEPOSITO
 	}
 
 	public String logar() {
-		if(this.cc != null) {
-			return "Usuário Autenticado";
+		try {
+			hw.pegarNumeroDaContaCartao();
+			return "Usuário autenticado";
+		} catch (RuntimeException e) {
+			return "Não foi possível autenticar o usuário";
 		}
-		return "Não foi possível autenticar o usuário";
 	}
 
-	public String sacar(BigDecimal valor) {
-		if(cc.getSaldo().compareTo(valor)==0){
-			sr.persistirConta(cc, valor);
+	public String sacar(Double valor) {
+		try {
+			sr.persistirConta(cc, Operacao.SAQUE, valor);
 			hw.entregarDinheiro();
+			return "Retire seu dinheiro";
+		} catch (RuntimeException e) {
+			return "Saldo insuficiente";
 		}
-
-		return "Retire seu dinheiro";
 	}
 
-	public String depositar(BigDecimal valueOf) {
-		return "Depósito recebido com sucesso";
-	}
-
-	public String saldo() {
-		return "O saldo é R$ 100.00";
+	public String depositar(Double valor) {
+		hw.lerEnvelope();
+		try {
+			sr.persistirConta(cc, Operacao.DEPOSITO, valor);
+			return "Depósito recebido com sucesso";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
