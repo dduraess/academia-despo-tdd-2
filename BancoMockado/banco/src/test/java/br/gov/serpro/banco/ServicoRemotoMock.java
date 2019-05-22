@@ -24,15 +24,20 @@ public class ServicoRemotoMock implements ServicoRemoto {
 	@Override
 	public void persistirConta(ContaCorrente cc, Operacao op, Double valor) {
 		if (op == Operacao.SAQUE) {
-			if (cc.getSaldo() >= valor) {
-				cc.sacar(valor);
-				persistiuConta = true;
-			} else {
-				throw new RuntimeException();
-			}
+			verificaSaldoDisponivel(cc, valor);
+		} else {
+			cc.depositar(valor);
+			persistiuConta = true;
 		}
-		cc.depositar(valor);
-		persistiuConta = true;
+	}
+
+	private void verificaSaldoDisponivel(ContaCorrente cc, Double valor) {
+		if (cc.getSaldo() >= valor) {
+			cc.sacar(valor);
+			persistiuConta = true;
+		} else {
+			throw new RuntimeException();
+		}
 	}
 
 }
